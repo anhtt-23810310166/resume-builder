@@ -6,6 +6,9 @@ export class Resume {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column({ unique: true, nullable: true })
+  shortId: string;
+
   @Column({ type: 'simple-json' })
   data: CreateResumeDto;
 

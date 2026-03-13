@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { FaFilePdf, FaSave, FaMagic } from 'react-icons/fa';
+import { FaFilePdf, FaSave, FaMagic, FaCheckCircle, FaExclamationCircle, FaInfoCircle } from 'react-icons/fa';
 import PersonalInfo from '@/components/PersonalInfo';
 import Experience from '@/components/Experience';
 import Education from '@/components/Education';
@@ -20,18 +20,32 @@ import '@/components/FormStyles.css';
 import '@/templates/TemplateStyles.css';
 import './page.css';
 
+interface Toast {
+  message: string;
+  type: 'success' | 'error' | 'info';
+}
+
 export default function HomePage() {
   const [resumeData, setResumeData] = useState<ResumeData>(initialData);
   const [activeTemplate, setActiveTemplate] = useState('classic');
+  const [resumeId, setResumeId] = useState<string | null>(null);
   const [isExporting, setIsExporting] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [saveMessage, setSaveMessage] = useState('');
+  const [toast, setToast] = useState<Toast | null>(null);
   const [showClearConfirm, setShowClearConfirm] = useState(false);
+  const [loadId, setLoadId] = useState('');
+  const [mobileView, setMobileView] = useState<'edit' | 'preview'>('edit');
+
+  const showToast = (message: string, type: 'success' | 'error' | 'info' = 'info') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 4000);
+  };
 
   // 1. Load data from localStorage on mount
   useEffect(() => {
     const savedData = localStorage.getItem('resume_builder_data');
     const savedTemplate = localStorage.getItem('resume_builder_template');
+    const savedId = localStorage.getItem('resume_builder_id');
     
     if (savedData) {
       try {
@@ -44,6 +58,10 @@ export default function HomePage() {
     if (savedTemplate) {
       setActiveTemplate(savedTemplate);
     }
+
+    if (savedId) {
+      setResumeId(savedId);
+    }
   }, []);
 
   // 2. Auto-save to localStorage whenever data changes
@@ -52,7 +70,10 @@ export default function HomePage() {
       localStorage.setItem('resume_builder_data', JSON.stringify(resumeData));
     }
     localStorage.setItem('resume_builder_template', activeTemplate);
-  }, [resumeData, activeTemplate]);
+    if (resumeId) {
+      localStorage.setItem('resume_builder_id', resumeId);
+    }
+  }, [resumeData, activeTemplate, resumeId]);
 
   const handleExportPdf = async () => {
     setIsExporting(true);
@@ -68,26 +89,59 @@ export default function HomePage() {
 
   const handleSave = async () => {
     setIsSaving(true);
-    setSaveMessage('');
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3002';
-      const res = await fetch(`${apiUrl}/api/resumes`, {
-        method: 'POST',
+      const isUpdate = !!resumeId;
+      const url = isUpdate ? `${apiUrl}/api/resumes/${resumeId}` : `${apiUrl}/api/resumes`;
+      
+      const res = await fetch(url, {
+        method: isUpdate ? 'PUT' : 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...resumeData, template: activeTemplate }),
       });
-      if (res.ok) {
-        const data = await res.json();
-        setSaveMessage(`Saved! ID: ${data.id}`);
-        setTimeout(() => setSaveMessage(''), 3000);
+
+        if (res.ok) {
+          const data = await res.json();
+          const newId = data.shortId || data.id;
+          if (!isUpdate && newId) {
+            setResumeId(newId);
+          }
+          showToast(isUpdate ? 'Hồ sơ đã được cập nhật thành công!' : `Đã lưu hồ sơ thành công! ID: ${newId}`, 'success');
+        }
+      } catch (error) {
+        showToast('Server offline — dữ liệu được lưu tạm ở máy', 'error');
+      } finally {
+        setIsSaving(false);
       }
-    } catch (error) {
-      setSaveMessage('Server offline — data kept locally');
-      setTimeout(() => setSaveMessage(''), 3000);
-    } finally {
-      setIsSaving(false);
-    }
-  };
+    };
+
+    const handleLoadById = async (e?: React.FormEvent) => {
+      if (e) e.preventDefault();
+      if (!loadId.trim()) return;
+
+      setIsSaving(true);
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3002';
+        const res = await fetch(`${apiUrl}/api/resumes/${loadId.trim().toUpperCase()}`);
+        if (res.ok) {
+          const data = await res.json();
+          // Remove DB specific fields if any, or just set data
+          const { id, shortId, createdAt, updatedAt, ...rest } = data;
+          setResumeData(rest.data || rest); // Support both nested data and flat data if changed
+          setResumeId(shortId || id);
+          if (data.template) setActiveTemplate(data.template);
+          if (data.data?.template) setActiveTemplate(data.data.template);
+          showToast('Đã tải hồ sơ thành công!', 'success');
+          setLoadId('');
+        } else {
+          showToast('Không tìm thấy hồ sơ với ID này!', 'error');
+        }
+      } catch (error) {
+        showToast('Không thể kết nối tới máy chủ', 'error');
+      } finally {
+        setIsSaving(false);
+      }
+    };
 
   const handleLoadSample = () => {
     setResumeData(sampleData);
@@ -99,8 +153,10 @@ export default function HomePage() {
 
   const confirmClear = () => {
     setResumeData(initialData);
+    setResumeId(null);
     localStorage.removeItem('resume_builder_data');
     localStorage.removeItem('resume_builder_template');
+    localStorage.removeItem('resume_builder_id');
     setShowClearConfirm(false);
   };
 
@@ -122,29 +178,71 @@ export default function HomePage() {
           <div className="header-logo">
             <h1>ResumeBuilder</h1>
           </div>
+          {resumeId && (
+            <div className="id-badge-inline">
+              <span>ID:</span> <strong>{resumeId}</strong>
+            </div>
+          )}
         </div>
         <div className="header-actions">
           <ThemeToggle />
+          
+          <form className="load-form" onSubmit={handleLoadById}>
+            <input 
+              type="text" 
+              placeholder="Load ID..." 
+              value={loadId}
+              onChange={(e) => setLoadId(e.target.value)}
+              className="load-input"
+            />
+            <button type="submit" className="btn btn-ghost btn-sm">Load</button>
+          </form>
+
+          <div className="divider-v"></div>
+
           <button className="btn btn-ghost" onClick={handleClear}>
             <span>Clear</span>
           </button>
           <button className="btn btn-ghost" onClick={handleLoadSample}>
-            <FaMagic /> <span>Load Sample</span>
+            <FaMagic /> <span>Sample</span>
           </button>
           <button className="btn btn-secondary" onClick={handleSave} disabled={isSaving}>
-            <FaSave /> <span>{isSaving ? 'Saving...' : 'Save'}</span>
+            <FaSave /> <span>{isSaving ? 'Saving...' : (resumeId ? 'Update' : 'Save')}</span>
           </button>
           <button className="btn btn-primary" onClick={handleExportPdf} disabled={isExporting}>
             <FaFilePdf /> <span>{isExporting ? 'Exporting...' : 'Export PDF'}</span>
           </button>
         </div>
-        {saveMessage && <div className="save-toast">{saveMessage}</div>}
+        {toast && (
+          <div className={`toast-container toast-${toast.type}`}>
+            {toast.type === 'success' && <FaCheckCircle />}
+            {toast.type === 'error' && <FaExclamationCircle />}
+            {toast.type === 'info' && <FaInfoCircle />}
+            <span>{toast.message}</span>
+          </div>
+        )}
       </header>
 
+      {/* Mobile View Toggle */}
+      <div className="mobile-view-toggle">
+        <button 
+          className={mobileView === 'edit' ? 'active' : ''} 
+          onClick={() => setMobileView('edit')}
+        >
+          Editor
+        </button>
+        <button 
+          className={mobileView === 'preview' ? 'active' : ''} 
+          onClick={() => setMobileView('preview')}
+        >
+          Preview
+        </button>
+      </div>
+
       {/* Main Content */}
-      <div className="app-main">
+      <div className={`app-main view-${mobileView}`}>
         {/* Left Panel - Form */}
-        <div className="panel-form">
+        <div className={`panel-form ${mobileView === 'edit' ? 'show-mobile' : 'hide-mobile'}`}>
           <PersonalInfo
             data={resumeData}
             onChange={(personalData) => setResumeData({ ...resumeData, ...personalData })}
@@ -172,7 +270,7 @@ export default function HomePage() {
         </div>
 
         {/* Right Panel - Preview */}
-        <div className="panel-preview">
+        <div className={`panel-preview ${mobileView === 'preview' ? 'show-mobile' : 'hide-mobile'}`}>
           {/* Template Selector */}
           <div className="template-selector">
             <div className="template-tabs">

@@ -14,40 +14,28 @@ import { Resume } from './resume/entities/resume.entity';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         const dbUrl = configService.get<string>('DATABASE_URL');
+        // Use DATABASE_URL (for Supabase/Render/Neon)
         if (dbUrl) {
           return {
             type: 'postgres',
             url: dbUrl,
-            ssl: { rejectUnauthorized: false }, // Required for Supabase/Neon
+            ssl: { rejectUnauthorized: false },
             entities: [Resume],
-            synchronize: true, // Auto-create tables (dev only)
-            extra: {
-              ssl: {
-                rejectUnauthorized: false,
-              },
-            },
+            synchronize: true, // dev only
           };
         }
 
-        const dbType = configService.get<string>('DB_TYPE') || 'postgres';
-        if (dbType === 'sqlite') {
-          return {
-            type: 'sqlite',
-            database: configService.get<string>('DB_NAME') || 'resume-builder.sqlite',
-            entities: [Resume],
-            synchronize: true,
-          };
-        }
-
+        // Fallback to separate variables (for local dev)
         return {
           type: 'postgres',
           host: configService.get<string>('DB_HOST') || 'localhost',
           port: configService.get<number>('DB_PORT') || 5432,
           username: configService.get<string>('DB_USERNAME') || 'postgres',
           password: configService.get<string>('DB_PASSWORD') || 'postgres',
-          database: configService.get<string>('DB_NAME') || 'resume_builder',
+          database: configService.get<string>('DB_NAME') || 'postgres',
           entities: [Resume],
-          synchronize: true, // Auto-create tables (dev only)
+          synchronize: true,
+          ssl: { rejectUnauthorized: false },
         };
       },
     }),
