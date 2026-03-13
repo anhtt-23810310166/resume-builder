@@ -470,6 +470,10 @@
   gap: 40px;
 }
 
+.pro-section {
+  margin-bottom: 25px; /* Khoảng cách sau mỗi section */
+}
+
 .pro-section-title {
   font-family: 'Outfit', sans-serif;
   font-size: 11pt;
@@ -480,10 +484,6 @@
   border-bottom: 2px solid #e9ecef;
   padding-bottom: 6px;
   margin-bottom: 15px;
-}
-
-.pro-entry {
-  margin-bottom: 20px;
 }
 
 .pro-entry-header {

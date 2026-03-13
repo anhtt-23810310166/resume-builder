@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FaFilePdf, FaSave, FaMagic } from 'react-icons/fa';
 import PersonalInfo from '@/components/PersonalInfo';
 import Experience from '@/components/Experience';
@@ -26,6 +26,33 @@ export default function HomePage() {
   const [isExporting, setIsExporting] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState('');
+  const [showClearConfirm, setShowClearConfirm] = useState(false);
+
+  // 1. Load data from localStorage on mount
+  useEffect(() => {
+    const savedData = localStorage.getItem('resume_builder_data');
+    const savedTemplate = localStorage.getItem('resume_builder_template');
+    
+    if (savedData) {
+      try {
+        setResumeData(JSON.parse(savedData));
+      } catch (e) {
+        console.error('Failed to parse saved data', e);
+      }
+    }
+    
+    if (savedTemplate) {
+      setActiveTemplate(savedTemplate);
+    }
+  }, []);
+
+  // 2. Auto-save to localStorage whenever data changes
+  useEffect(() => {
+    if (resumeData !== initialData) {
+      localStorage.setItem('resume_builder_data', JSON.stringify(resumeData));
+    }
+    localStorage.setItem('resume_builder_template', activeTemplate);
+  }, [resumeData, activeTemplate]);
 
   const handleExportPdf = async () => {
     setIsExporting(true);
@@ -66,7 +93,14 @@ export default function HomePage() {
   };
 
   const handleClear = () => {
+    setShowClearConfirm(true);
+  };
+
+  const confirmClear = () => {
     setResumeData(initialData);
+    localStorage.removeItem('resume_builder_data');
+    localStorage.removeItem('resume_builder_template');
+    setShowClearConfirm(false);
   };
 
   const renderTemplate = () => {
@@ -161,6 +195,26 @@ export default function HomePage() {
           </div>
         </div>
       </div>
+
+      {/* Custom Clear Confirmation Modal */}
+      {showClearConfirm && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h2>Clear All Data?</h2>
+              <p>This will permanently remove your current draft and all entered information. This action cannot be undone.</p>
+            </div>
+            <div className="modal-footer">
+              <button className="btn btn-ghost" onClick={() => setShowClearConfirm(false)}>
+                Cancel
+              </button>
+              <button className="btn btn-danger" onClick={confirmClear}>
+                Clear Everything
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
