@@ -101,14 +101,19 @@
   display: flex;
   flex-direction: column;
   background: var(--bg-preview);
+  position: relative; /* Thêm để định vị absolute selector */
 }
 
-/* Template Switching: Rounded & Modern */
+/* Template Switching: Rounded & Modern - Floating over preview */
 .template-selector {
-  padding: 16px;
+  position: absolute;
+  top: 16px;
+  left: 0;
+  right: 0;
   display: flex;
   justify-content: center;
-  background: transparent; /* Loại bỏ nền sọc ngang */
+  z-index: 100;
+  pointer-events: none; /* Cho phép click xuyên qua phần container trống */
 }
 
 .template-tabs {
@@ -117,7 +122,8 @@
   padding: 4px;
   border-radius: var(--radius-lg); /* Bo tròn góc theo yêu cầu */
   border: 1px solid var(--border-std);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md); /* Đổ bóng mạnh hơn để tạo hiệu ứng nổi */
+  pointer-events: auto; /* Bật lại click cho các tab */
 }
 
 .template-tab {
