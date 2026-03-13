@@ -70,7 +70,8 @@ export default function HomePage() {
     setIsSaving(true);
     setSaveMessage('');
     try {
-      const res = await fetch('http://localhost:3002/api/resumes', {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3002';
+      const res = await fetch(`${apiUrl}/api/resumes`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...resumeData, template: activeTemplate }),

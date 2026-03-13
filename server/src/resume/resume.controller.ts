@@ -9,12 +9,12 @@ export class ResumeController {
   constructor(private readonly resumeService: ResumeService) {}
 
   @Post()
-  create(@Body() createResumeDto: CreateResumeDto) {
+  async create(@Body() createResumeDto: CreateResumeDto) {
     return this.resumeService.create(createResumeDto);
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.resumeService.findAll();
   }
 
@@ -24,17 +24,17 @@ export class ResumeController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.resumeService.findOne(id);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateResumeDto: CreateResumeDto) {
+  async update(@Param('id') id: string, @Body() updateResumeDto: CreateResumeDto) {
     return this.resumeService.update(id, updateResumeDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     return this.resumeService.remove(id);
   }
 }
