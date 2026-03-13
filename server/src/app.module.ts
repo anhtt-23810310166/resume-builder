@@ -21,8 +21,24 @@ import { Resume } from './resume/entities/resume.entity';
             ssl: { rejectUnauthorized: false }, // Required for Supabase/Neon
             entities: [Resume],
             synchronize: true, // Auto-create tables (dev only)
+            extra: {
+              ssl: {
+                rejectUnauthorized: false,
+              },
+            },
           };
         }
+
+        const dbType = configService.get<string>('DB_TYPE') || 'postgres';
+        if (dbType === 'sqlite') {
+          return {
+            type: 'sqlite',
+            database: configService.get<string>('DB_NAME') || 'resume-builder.sqlite',
+            entities: [Resume],
+            synchronize: true,
+          };
+        }
+
         return {
           type: 'postgres',
           host: configService.get<string>('DB_HOST') || 'localhost',
