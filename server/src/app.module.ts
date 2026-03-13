@@ -12,16 +12,28 @@ import { Resume } from './resume/entities/resume.entity';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get<string>('DB_HOST') || 'localhost',
-        port: configService.get<number>('DB_PORT') || 5432,
-        username: configService.get<string>('DB_USERNAME') || 'postgres',
-        password: configService.get<string>('DB_PASSWORD') || 'postgres',
-        database: configService.get<string>('DB_NAME') || 'resume_builder',
-        entities: [Resume],
-        synchronize: true, // Auto-create tables (dev only)
-      }),
+      useFactory: (configService: ConfigService) => {
+        const dbUrl = configService.get<string>('DATABASE_URL');
+        if (dbUrl) {
+          return {
+            type: 'postgres',
+            url: dbUrl,
+            ssl: { rejectUnauthorized: false }, // Required for Supabase/Neon
+            entities: [Resume],
+            synchronize: true, // Auto-create tables (dev only)
+          };
+        }
+        return {
+          type: 'postgres',
+          host: configService.get<string>('DB_HOST') || 'localhost',
+          port: configService.get<number>('DB_PORT') || 5432,
+          username: configService.get<string>('DB_USERNAME') || 'postgres',
+          password: configService.get<string>('DB_PASSWORD') || 'postgres',
+          database: configService.get<string>('DB_NAME') || 'resume_builder',
+          entities: [Resume],
+          synchronize: true, // Auto-create tables (dev only)
+        };
+      },
     }),
     ResumeModule,
   ],
