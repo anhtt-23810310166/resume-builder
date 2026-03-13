@@ -1,0 +1,252 @@
+/* ===== Clean & Modern Form Styles ===== */
+
+.form-section {
+  padding: 32px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.form-section:last-child {
+  border-bottom: none;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  cursor: pointer;
+}
+
+.section-header h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.section-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--text-main);
+  border: 1.5px solid var(--text-main);
+  border-radius: 6px;
+  font-size: 0.75rem;
+}
+
+.section-toggle {
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+.section-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-sub);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  background: var(--bg-sidebar);
+  border: 1px solid var(--border-std);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  color: var(--text-main);
+  font-size: 0.9rem;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: all var(--transition);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: var(--text-main);
+  background: var(--bg-app);
+  box-shadow: 0 0 0 4px var(--border-light);
+}
+
+/* Entry Cards: Integrated Look */
+.entry-card {
+  background: var(--bg-sidebar);
+  border: 1px solid var(--border-std);
+  border-radius: var(--radius-lg);
+  padding: 40px 24px 24px 24px;
+  position: relative;
+  transition: all var(--transition);
+}
+
+.entry-card:hover {
+  border-color: var(--text-main);
+  background: var(--bg-app);
+  box-shadow: var(--shadow-md);
+}
+
+.remove-entry-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition);
+}
+
+.remove-entry-btn:hover {
+  background: var(--border-light);
+  color: var(--text-sub);
+}
+
+/* Skill Card Styles */
+.skill-modern-card {
+  padding: 16px !important;
+}
+
+.skill-modern-card .form-group {
+  margin-bottom: 0;
+}
+
+/* Skills Grid */
+.skills-clean-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+/* Languages Grid */
+.languages-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+/* Language Input Card */
+.language-input-card {
+  padding: 16px !important;
+}
+
+/* Input Remove Button (inside input field) */
+.input-remove-btn {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition);
+  z-index: 10;
+}
+
+.input-remove-btn:hover {
+  color: var(--text-sub);
+  background: var(--border-light);
+}
+
+.input-with-remove {
+  position: relative;
+}
+
+.input-with-remove input,
+.input-with-remove textarea {
+  padding-right: 36px !important;
+}
+
+.add-entry-btn {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  border: 1.5px dashed var(--border-std);
+  border-radius: var(--radius-lg);
+  color: var(--text-sub);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  margin-top: 8px;
+}
+
+.add-entry-btn:hover {
+  border-color: var(--text-main);
+  color: var(--text-main);
+  background: var(--bg-sidebar);
+}
+
+@media (max-width: 600px) {
+  .form-section {
+    padding: 24px 0;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .entry-card {
+    padding: 32px 16px 16px 16px;
+  }
+
+  .skills-clean-grid,
+  .languages-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .section-header h3 {
+    font-size: 0.85rem;
+  }
+
+  .add-entry-btn {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 400px) {
+  .form-section {
+    padding: 20px 0;
+  }
+  
+  .section-header {
+    margin-bottom: 16px;
+  }
+}
