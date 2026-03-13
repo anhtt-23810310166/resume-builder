@@ -23,12 +23,14 @@ export default function MinimalTemplate({ data }: TemplateProps) {
 
       <div className="minimal-divider" />
 
-      {/* Summary */}
+      {/* Summary - Cấu trúc lại để thẳng hàng */}
       {data.summary && (
         <>
           <div className="minimal-section">
-            <div className="minimal-section-title">Profile</div>
-            <div className="minimal-summary">{data.summary}</div>
+            <div className="minimal-label">Profile</div>
+            <div className="minimal-content">
+              <div className="minimal-summary">{data.summary}</div>
+            </div>
           </div>
           <div className="minimal-divider" />
         </>
@@ -38,24 +40,19 @@ export default function MinimalTemplate({ data }: TemplateProps) {
       {data.experience?.length > 0 && (
         <>
           <div className="minimal-section">
-            <div className="minimal-section-title">Experience</div>
-            {data.experience.map((exp, i) => (
-              <div key={i} className="minimal-entry">
-                <div className="minimal-entry-date">
-                  {exp.startDate}
-                  {exp.endDate ? <><br />{exp.endDate}</> : ''}
-                </div>
-                <div className="minimal-entry-content">
-                  <div className="minimal-entry-title">{exp.position || 'Position'}</div>
-                  {exp.company && (
+            <div className="minimal-label">Experience</div>
+            <div className="minimal-content">
+              {data.experience.map((exp, i) => (
+                <div key={i} className="minimal-entry">
+                  <div className="minimal-date">{exp.startDate} — {exp.endDate || 'Present'}</div>
+                  <div className="minimal-details">
+                    <div className="minimal-entry-title">{exp.position}</div>
                     <div className="minimal-entry-subtitle">{exp.company}</div>
-                  )}
-                  {exp.description && (
-                    <div className="minimal-entry-description">{exp.description}</div>
-                  )}
+                    {exp.description && <div className="minimal-entry-description">{exp.description}</div>}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
           <div className="minimal-divider" />
         </>
@@ -65,51 +62,18 @@ export default function MinimalTemplate({ data }: TemplateProps) {
       {data.education?.length > 0 && (
         <>
           <div className="minimal-section">
-            <div className="minimal-section-title">Education</div>
-            {data.education.map((edu, i) => (
-              <div key={i} className="minimal-entry">
-                <div className="minimal-entry-date">
-                  {edu.startDate}
-                  {edu.endDate ? <><br />{edu.endDate}</> : ''}
-                </div>
-                <div className="minimal-entry-content">
-                  <div className="minimal-entry-title">
-                    {edu.degree}{edu.field ? ` in ${edu.field}` : ''}
-                  </div>
-                  {edu.school && (
+            <div className="minimal-label">Education</div>
+            <div className="minimal-content">
+              {data.education.map((edu, i) => (
+                <div key={i} className="minimal-entry">
+                  <div className="minimal-date">{edu.startDate} — {edu.endDate || 'Present'}</div>
+                  <div className="minimal-details">
+                    <div className="minimal-entry-title">{edu.degree} in {edu.field}</div>
                     <div className="minimal-entry-subtitle">{edu.school}</div>
-                  )}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-          <div className="minimal-divider" />
-        </>
-      )}
-
-      {/* Projects */}
-      {data.projects?.length > 0 && (
-        <>
-          <div className="minimal-section">
-            <div className="minimal-section-title">Projects</div>
-            {data.projects.map((proj, i) => (
-              <div key={i} className="minimal-entry">
-                <div className="minimal-entry-date">
-                  {proj.techStack || ''}
-                </div>
-                <div className="minimal-entry-content">
-                  <div className="minimal-entry-title">{proj.name || 'Project'}</div>
-                  {proj.description && (
-                    <div className="minimal-entry-description">{proj.description}</div>
-                  )}
-                  {proj.link && (
-                    <div className="minimal-entry-subtitle" style={{ marginTop: '4px' }}>
-                      {proj.link}
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
           <div className="minimal-divider" />
         </>
@@ -119,9 +83,8 @@ export default function MinimalTemplate({ data }: TemplateProps) {
       {data.skills?.length > 0 && (
         <>
           <div className="minimal-section">
-            <div className="minimal-section-title">Skills</div>
-            <div className="minimal-skills-grid">
-              <div />
+            <div className="minimal-label">Skills</div>
+            <div className="minimal-content">
               <div className="minimal-skills-list">
                 {data.skills.map((skill, i) => (
                   <span key={i} className="minimal-skill-tag">{skill.name}</span>
@@ -136,9 +99,8 @@ export default function MinimalTemplate({ data }: TemplateProps) {
       {/* Languages */}
       {data.languages?.length > 0 && (
         <div className="minimal-section">
-          <div className="minimal-section-title">Languages</div>
-          <div className="minimal-languages-grid">
-            <div />
+          <div className="minimal-label">Languages</div>
+          <div className="minimal-content">
             <div className="minimal-languages-list">
               {data.languages.map((lang, i) => (
                 <span key={i} className="minimal-language-item">

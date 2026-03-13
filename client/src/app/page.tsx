@@ -11,6 +11,7 @@ import Languages from '@/components/Languages';
 import ClassicTemplate from '@/templates/ClassicTemplate';
 import ModernTemplate from '@/templates/ModernTemplate';
 import MinimalTemplate from '@/templates/MinimalTemplate';
+import ProfessionalTemplate from '@/templates/ProfessionalTemplate';
 import { exportToPdf } from '@/utils/pdfExport';
 import { ResumeData } from '@/types/resume';
 import { initialData, sampleData, templates } from '@/constants/resumeData';
@@ -73,6 +74,7 @@ export default function HomePage() {
     switch (activeTemplate) {
       case 'modern': return <ModernTemplate {...props} />;
       case 'minimal': return <MinimalTemplate {...props} />;
+      case 'professional': return <ProfessionalTemplate {...props} />;
       default: return <ClassicTemplate {...props} />;
     }
   };

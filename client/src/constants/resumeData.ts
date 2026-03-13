@@ -20,6 +20,7 @@ export const templates = [
   { id: 'classic', name: 'Classic', emoji: '📄' },
   { id: 'modern', name: 'Modern', emoji: '🎨' },
   { id: 'minimal', name: 'Minimal', emoji: '✨' },
+  { id: 'professional', name: 'Professional', emoji: '💼' },
 ];
 
 export const sampleData: ResumeData = {

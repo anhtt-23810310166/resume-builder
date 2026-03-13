@@ -151,15 +151,52 @@
 .preview-scroll {
   flex: 1;
   overflow: auto;
-  padding: 40px 60px 60px 60px;
+  padding: 60px 20px;
   display: flex;
   justify-content: center;
+  background: var(--bg-preview);
 }
 
 .preview-scroll > div {
   transform-origin: top center;
-  transform: scale(0.85);
+  transform: scale(0.75); /* Mặc định nhỏ hơn để vừa các màn hình thông dụng */
   box-shadow: var(--shadow-lg);
+  margin-bottom: 60px;
+}
+
+/* Responsive Scaling for CV Preview */
+@media (min-width: 1400px) {
+  .preview-scroll > div {
+    transform: scale(0.85);
+  }
+}
+
+@media (min-width: 1600px) {
+  .preview-scroll > div {
+    transform: scale(0.95);
+  }
+}
+
+@media (max-width: 1200px) {
+  .preview-scroll > div {
+    transform: scale(0.65);
+  }
+}
+
+@media (max-width: 992px) {
+  .preview-scroll {
+    padding: 40px 10px;
+  }
+  .preview-scroll > div {
+    transform: scale(0.55);
+  }
+}
+
+@media (max-width: 600px) {
+  .preview-scroll > div {
+    transform: scale(0.4);
+    margin-bottom: 20px;
+  }
 }
 
 /* Responsive */

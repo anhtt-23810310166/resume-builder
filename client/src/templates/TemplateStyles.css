@@ -53,51 +53,519 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 0.5em 1.5em;
   font-size: 9pt;
   color: #555;
+  margin-top: 8px;
+}
+
+.classic-template .cv-contact span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.classic-template .cv-languages-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3em;
+}
+
+.classic-template .cv-language-item {
+  display: inline-block;
+  font-size: 9.5pt;
+  color: #2c3e50;
+}
+
+.classic-template .cv-contact svg {
+  font-size: 8pt;
+  color: #2c3e50;
+  opacity: 0.8;
+}
+
+.classic-template .cv-title {
+  font-size: 13pt;
+  font-weight: 600;
+  color: #34495e;
+  margin-top: 4px;
+  margin-bottom: 10px;
+}
+
+.classic-template .cv-entry-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.classic-template .cv-entry-title {
+  font-weight: 700;
+  font-size: 11pt;
+  color: #2c3e50;
+}
+
+.classic-template .cv-entry-subtitle {
+  font-weight: 600;
+  font-size: 10pt;
+  color: #34495e;
+}
+
+.classic-template .cv-entry-date {
+  font-size: 9pt;
+  color: #7f8c8d;
+  font-weight: 500;
+}
+
+.classic-template .cv-entry-description {
+  font-size: 9.5pt;
+  color: #555;
+  white-space: pre-line;
+  margin-top: 5px;
+}
+
+.classic-template .cv-summary {
+  font-size: 10pt;
+  color: #555;
+  line-height: 1.6;
+}
+
+.classic-template .cv-section {
+  margin-bottom: 20px;
 }
 
 /* ===== MODERN TEMPLATE ===== */
 .modern-template {
   display: grid;
-  grid-template-columns: 220px 1fr;
+  grid-template-columns: 240px 1fr;
+  min-height: 297mm;
 }
 
 .modern-template .modern-sidebar {
-  background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
-  color: #ffffff;
-  padding: 35px 24px;
+  background: #1e293b;
+  color: #f8fafc;
+  padding: 40px 24px;
 }
 
 .modern-template .modern-main {
-  padding: 35px 32px;
+  padding: 40px 35px;
+  background: #ffffff;
 }
 
 .modern-template .modern-name {
   font-family: 'Outfit', sans-serif;
-  font-size: 22pt;
-  font-weight: 700;
+  font-size: 20pt;
+  font-weight: 800;
   color: #ffffff;
+  margin-bottom: 4px;
 }
 
-/* ===== MINIMAL TEMPLATE ===== */
+.modern-template .modern-title {
+  font-size: 10pt;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 30px;
+}
+
+.modern-sidebar-section {
+  margin-bottom: 30px;
+}
+
+.modern-sidebar-title {
+  font-size: 9pt;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #64748b;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #334155;
+  padding-bottom: 6px;
+}
+
+.modern-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 8.5pt;
+  color: #cbd5e1;
+}
+
+.modern-contact-item svg {
+  color: #94a3b8;
+  flex-shrink: 0;
+  font-size: 8pt;
+}
+
+.modern-section {
+  margin-bottom: 28px;
+}
+
+.modern-section-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13pt;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 14px;
+  position: relative;
+  padding-bottom: 8px;
+}
+
+.modern-section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background: #1e293b;
+}
+
+.modern-entry {
+  margin-bottom: 18px;
+}
+
+.modern-entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 3px;
+}
+
+.modern-entry-title {
+  font-weight: 700;
+  font-size: 11pt;
+  color: #1e293b;
+}
+
+.modern-entry-subtitle {
+  font-weight: 600;
+  font-size: 9.5pt;
+  color: #475569;
+}
+
+.modern-entry-date {
+  font-size: 8.5pt;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.modern-entry-description {
+  font-size: 9.5pt;
+  color: #475569;
+  line-height: 1.5;
+  margin-top: 6px;
+  white-space: pre-line;
+}
+
+.modern-tech-tag {
+  display: inline-block;
+  font-size: 8pt;
+  background: #f1f5f9;
+  color: #475569;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-right: 6px;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.modern-summary {
+  font-size: 10pt;
+  color: #475569;
+  line-height: 1.6;
+}
+
+/* ===== MINIMAL TEMPLATE (Fixed Alignment) ===== */
 .minimal-template {
-  padding: 50px 55px;
+  padding: 50px 60px;
+  background-color: #ffffff;
+  color: #2d3436;
 }
 
-.minimal-template .minimal-name {
+.minimal-header {
+  margin-bottom: 25px;
+}
+
+.minimal-name {
   font-family: 'Outfit', sans-serif;
   font-size: 32pt;
   font-weight: 300;
   color: #111;
+  letter-spacing: -1px;
+  margin-bottom: 4px;
 }
 
-.minimal-template .minimal-entry {
+.minimal-title {
+  font-size: 11pt;
+  font-weight: 500;
+  color: #636e72;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 15px;
+}
+
+.minimal-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em 1.5em;
+  font-size: 8.5pt;
+  color: #636e72;
+  margin-top: 8px;
+}
+
+.minimal-contact span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.minimal-divider {
+  height: 1px;
+  background-color: #f1f2f6;
+  margin: 25px 0;
+}
+
+.minimal-section {
   display: grid;
   grid-template-columns: 140px 1fr;
   gap: 20px;
-  margin-bottom: 18px;
+  align-items: start;
+}
+
+.minimal-label {
+  font-size: 9pt;
+  font-weight: 700;
+  color: #b2bec3;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding-top: 2px;
+}
+
+.minimal-content {
+  /* All content here starts from the same X-axis */
+}
+
+.minimal-summary {
+  font-size: 10pt;
+  line-height: 1.7;
+  color: #2d3436;
+  margin: 0;
+}
+
+.minimal-entry {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 22px;
+}
+
+.minimal-date {
+  font-size: 8.5pt;
+  color: #b2bec3;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.minimal-entry-title {
+  font-size: 11pt;
+  font-weight: 700;
+  color: #2d3436;
+}
+
+.minimal-entry-subtitle {
+  font-size: 9.5pt;
+  font-weight: 600;
+  color: #636e72;
+  margin-top: 2px;
+}
+
+.minimal-entry-description {
+  font-size: 9.5pt;
+  color: #636e72;
+  line-height: 1.6;
+  margin-top: 8px;
+  white-space: pre-line;
+}
+
+.minimal-skills-list,
+.minimal-languages-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3em;
+}
+
+.minimal-skill-tag {
+  font-size: 8.5pt;
+  font-weight: 600;
+  color: #2d3436;
+  background: #f1f2f6;
+  padding: 3px 10px;
+  border-radius: 2px;
+}
+
+.minimal-language-name {
+  font-size: 9.5pt;
+  color: #2d3436;
+}
+
+.minimal-template .minimal-entry:last-child {
+  margin-bottom: 0;
+}
+
+/* ===== PROFESSIONAL TEMPLATE ===== */
+.professional-template {
+  padding: 0;
+  color: #2c3e50;
+}
+
+.pro-header {
+  text-align: center;
+  padding: 40px 45px 25px 45px;
+  background-color: #f8f9fa;
+  border-bottom: 4px solid #2c3e50;
+}
+
+.pro-name {
+  font-family: 'Outfit', sans-serif;
+  font-size: 28pt;
+  font-weight: 800;
+  color: #2c3e50;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.pro-job-title {
+  font-size: 14pt;
+  font-weight: 600;
+  color: #34495e;
+  margin-top: 5px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.pro-contact-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5em 1.5em;
+  margin-top: 12px;
+  font-size: 9pt;
+  color: #7f8c8d;
+}
+
+.pro-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pro-contact-item svg {
+  color: #2c3e50;
+  font-size: 8.5pt;
+}
+
+.pro-content {
+  display: grid;
+  grid-template-columns: 1fr 240px;
+  padding: 30px 45px;
+  gap: 40px;
+}
+
+.pro-section-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 11pt;
+  font-weight: 800;
+  color: #2c3e50;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 6px;
+  margin-bottom: 15px;
+}
+
+.pro-entry {
+  margin-bottom: 20px;
+}
+
+.pro-entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.pro-entry-role {
+  font-weight: 700;
+  font-size: 11pt;
+  color: #2c3e50;
+}
+
+.pro-entry-date {
+  font-size: 9pt;
+  color: #95a5a6;
+  font-weight: 500;
+}
+
+.pro-entry-company {
+  font-weight: 600;
+  font-size: 10pt;
+  color: #34495e;
+  margin: 2px 0 6px 0;
+}
+
+.pro-entry-desc {
+  font-size: 9.5pt;
+  color: #52606d;
+  white-space: pre-line;
+}
+
+.pro-summary {
+  font-size: 10pt;
+  color: #52606d;
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+.pro-skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.pro-skill-tag {
+  background: #f1f3f5;
+  color: #495057;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 8.5pt;
+  font-weight: 600;
+}
+
+.pro-languages-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3em;
+}
+
+.pro-lang-item {
+  font-size: 10pt;
+  color: #2c3e50;
+}
+
+.pro-entry.compact {
+  margin-bottom: 12px;
+}
+
+.pro-entry-role.small {
+  font-size: 10pt;
+}
+
+.pro-entry-company.small {
+  font-size: 8.5pt;
+  margin-bottom: 2px;
+}
+
+.pro-entry-desc.small {
+  font-size: 8.5pt;
 }
 
 /* Entry Tags */

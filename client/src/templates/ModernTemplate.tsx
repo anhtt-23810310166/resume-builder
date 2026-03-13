@@ -149,6 +149,18 @@ export default function ModernTemplate({ data }: TemplateProps) {
           flex-wrap: wrap;
           gap: 6px;
         }
+        .modern-sidebar-langs {
+          display: flex;
+          flex-wrap: wrap;
+        }
+        .modern-sidebar-lang-item {
+          font-size: 8.5pt;
+          color: #ccd6f6;
+          margin-right: 10px; /* Đảm bảo luôn có khoảng cách ít nhất 10px */
+        }
+        .modern-sidebar-lang-item:last-child {
+          margin-right: 0;
+        }
         .modern-sidebar-skill-tag {
           font-size: 8pt;
           background: rgba(255, 255, 255, 0.1);
